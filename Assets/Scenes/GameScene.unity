@@ -656,9 +656,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5568cb105cf2d4fff89eebbe38996b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  easyButton: {fileID: 0}
-  mediumButton: {fileID: 0}
-  hardButton: {fileID: 0}
+  easyButton: {fileID: 1067983777}
+  mediumButton: {fileID: 1498091534}
+  hardButton: {fileID: 1046200007}
   GamePlayScreen: {fileID: 755270450}
 --- !u!1 &502617891
 GameObject:
