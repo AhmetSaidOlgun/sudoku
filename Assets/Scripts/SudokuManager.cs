@@ -69,7 +69,7 @@ public class SudokuManager : MonoBehaviour
         }
     }
 
-    private void CreateSudokuObject()
+    public void CreateSudokuObject()
     {
         SudokuGenerator.CreateSudokuObjects(out SudokuObjects finalObject, out SudokuObjects gameObject);
         _gameObject = gameObject;
@@ -92,11 +92,6 @@ public class SudokuManager : MonoBehaviour
                 }
             }
         }
-
-        // foreach (var item in changebleSudokuItems)
-        // {
-        //     Debug.Log($"{item._row}, {item._column}");
-        // }
     }
 
     private void GenerateSudokuItems()

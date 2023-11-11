@@ -25,6 +25,9 @@ public class SudokuItem
     {
         var buttonColors = _instance.GetComponent<Button>().colors;
         buttonColors.normalColor = Color.green;
+        buttonColors.disabledColor = Color.green;
+        buttonColors.highlightedColor = Color.green;
+        buttonColors.pressedColor = Color.green;
         _instance.GetComponent<Button>().colors = buttonColors;
     }
 
@@ -32,6 +35,9 @@ public class SudokuItem
     {
         var buttonColors = _instance.GetComponent<Button>().colors;
         buttonColors.normalColor = Color.red;
+        buttonColors.disabledColor = Color.red;
+        buttonColors.highlightedColor = Color.red;
+        buttonColors.pressedColor = Color.red;
         _instance.GetComponent<Button>().colors = buttonColors;
     }
     
@@ -45,6 +51,8 @@ public class SudokuItem
     public void ClearSudoku()
     {
         _instance.GetComponent<Image>().sprite = null;
-        _instance.GetComponent<Image>().color = Color.white;
+        var colorBlock = _instance.GetComponent<Button>().colors;
+        colorBlock.normalColor = Color.white;
+        _instance.GetComponent<Button>().colors = colorBlock;
     }
 }
