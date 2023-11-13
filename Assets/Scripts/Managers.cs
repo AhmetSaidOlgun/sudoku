@@ -6,4 +6,5 @@ public  class Managers : MonoBehaviour
 {
     public static ImageManager ImageManager;
     public static SudokuManager SudokuManager;
+    public static AdManager AdManager;
 }

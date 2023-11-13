@@ -19,5 +19,6 @@ public class EndScreenController : MonoBehaviour
         Managers.SudokuManager.CreateSudokuObject();
         _gamePlayScreen.gameObject.SetActive(true);
         gameObject.SetActive(false);
+        Managers.SudokuManager.sudokuCreated.Invoke();
     }
 }

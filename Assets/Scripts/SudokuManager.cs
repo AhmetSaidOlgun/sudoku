@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,7 +23,12 @@ public class SudokuManager : MonoBehaviour
 
     private Dictionary<Tuple<int, int>, SudokuItem> _sudokuItemDic = new Dictionary<Tuple<int, int>, SudokuItem>();
 
-    public List<SudokuItem> changebleSudokuItems = new List<SudokuItem>();
+    public List<SudokuItem> changebleSudokuItems;
+    private List<Button> sudokuButtons;
+
+    public int moveCount;
+    public Action controllerItemClicked;
+    public Action sudokuCreated;
 
     private void Awake()
     {
@@ -71,6 +77,9 @@ public class SudokuManager : MonoBehaviour
 
     public void CreateSudokuObject()
     {
+        moveCount = 5;
+        SetControllerItemsInteraction(true);
+        changebleSudokuItems = new List<SudokuItem>();
         SudokuGenerator.CreateSudokuObjects(out SudokuObjects finalObject, out SudokuObjects gameObject);
         _gameObject = gameObject;
         _finalObject = finalObject;
@@ -111,9 +120,11 @@ public class SudokuManager : MonoBehaviour
 
     private void GenerateControllerItems()
     {
+        sudokuButtons = new List<Button>();
         for (int i = 1; i < 10; i++)
         {
             GameObject instance = Instantiate(sudokuControllerPrefab, sudokuControllerPanel.transform);
+            sudokuButtons.Add(instance.GetComponent<Button>());
             instance.GetComponent<Image>().sprite = Managers.ImageManager.images[i - 1];
             ControllerItem controllerItem = new ControllerItem();
             controllerItem.number = i;
@@ -129,7 +140,13 @@ public class SudokuManager : MonoBehaviour
         Debug.Log(_sudokuItemDic.FirstOrDefault(x => x.Value == sudokuItem).Key);
         if (sudokuItem.isChangeable)
         {
+            if (_currentSudokuItem != null)
+            {
+                _currentSudokuItem.SetInteraction(true);
+            }
+
             _currentSudokuItem = sudokuItem;
+            _currentSudokuItem.SetInteraction(false);
         }
     }
 
@@ -138,27 +155,32 @@ public class SudokuManager : MonoBehaviour
         bool gameFinished = true;
         if (_currentSudokuItem != null)
         {
+            moveCount--;
+            bool moveFinished = MoveFinished();
             _currentSudokuItem.SetItemNumber(controllerItem.number);
-            Managers.SudokuManager.ItemValueChanged(_currentSudokuItem);
-            
+            ItemValueChanged(_currentSudokuItem);
+
             foreach (var item in changebleSudokuItems)
             {
-                if (item.Number == 0)
+                if (item.Number != _finalObject.values[item._row, item._column] && !moveFinished)
                 {
                     gameFinished = false;
                 }
             }
+
+            controllerItemClicked.Invoke();
         }
 
         if (gameFinished)
         {
-            Debug.Log("Oyun bitti");
+            StartCoroutine(GameFinished(1));
         }
     }
 
     public void ClearSudoku()
     {
         _gameObject = null;
+        changebleSudokuItems = null;
         for (int row = 0; row < 9; row++)
         {
             for (int column = 0; column < 9; column++)
@@ -186,6 +208,34 @@ public class SudokuManager : MonoBehaviour
                 sudokuItem.FailItem();
                 showSuccessfulText = false;
             }
+        }
+    }
+
+    private bool MoveFinished()
+    {
+        if (moveCount <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private IEnumerator GameFinished(float duration)
+    {
+        _currentSudokuItem = null;
+        SetControllerItemsInteraction(false);
+        yield return new WaitForSeconds(duration);
+        FinishButton();
+    }
+
+    public void SetControllerItemsInteraction(bool isInteractable)
+    {
+        foreach (var button in sudokuButtons)
+        {
+            button.interactable = isInteractable;
         }
     }
 }

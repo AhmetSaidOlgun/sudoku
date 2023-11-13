@@ -12,6 +12,8 @@ public class SudokuItem
     public int _row;
     public int _column;
 
+    [SerializeField] private Color _failPressedColor;
+
     public bool isChangeable = true;
 
     public SudokuItem(GameObject instance, int row, int column)
@@ -23,29 +25,38 @@ public class SudokuItem
 
     public void SuccessfulItem()
     {
-        var buttonColors = _instance.GetComponent<Button>().colors;
+        var button = _instance.GetComponent<Button>();
+        isChangeable = false;
+        button.interactable = false;
+        var buttonColors = button.colors;
         buttonColors.normalColor = Color.green;
         buttonColors.disabledColor = Color.green;
         buttonColors.highlightedColor = Color.green;
+        buttonColors.selectedColor = Color.green;
         buttonColors.pressedColor = Color.green;
-        _instance.GetComponent<Button>().colors = buttonColors;
+        button.colors = buttonColors;
     }
 
     public void FailItem()
     {
-        var buttonColors = _instance.GetComponent<Button>().colors;
+        var button = _instance.GetComponent<Button>();
+        isChangeable = true;
+        button.interactable = true;
+        var buttonColors = button.colors;
         buttonColors.normalColor = Color.red;
         buttonColors.disabledColor = Color.red;
         buttonColors.highlightedColor = Color.red;
-        buttonColors.pressedColor = Color.red;
-        _instance.GetComponent<Button>().colors = buttonColors;
+        buttonColors.selectedColor = Color.red;
+        buttonColors.pressedColor = HexToColor("C31919");
+        button.colors = buttonColors;
     }
-    
+
     public void SetItemNumber(int? number)
     {
+        Number = 0;
         if (number == null) return;
         Number = number;
-        _instance.GetComponent<Image>().sprite = Managers.ImageManager.images[(int) number - 1];
+        _instance.GetComponent<Image>().sprite = Managers.ImageManager.images[(int)number - 1];
     }
 
     public void ClearSudoku()
@@ -53,6 +64,22 @@ public class SudokuItem
         _instance.GetComponent<Image>().sprite = null;
         var colorBlock = _instance.GetComponent<Button>().colors;
         colorBlock.normalColor = Color.white;
+        colorBlock.highlightedColor = Color.white;
+        colorBlock.disabledColor = Color.white;
+        colorBlock.pressedColor = HexToColor("C8C8C8");
+        colorBlock.selectedColor = HexToColor("D6D6D6");
         _instance.GetComponent<Button>().colors = colorBlock;
+    }
+
+    public void SetInteraction(bool isInteractable)
+    {
+        _instance.GetComponent<Button>().interactable = isInteractable;
+    }
+
+    private Color HexToColor(string hex)
+    {
+        Color color = new Color();
+        ColorUtility.TryParseHtmlString("#" + hex, out color);
+        return color;
     }
 }

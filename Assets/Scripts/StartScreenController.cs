@@ -25,6 +25,7 @@ public class StartScreenController : MonoBehaviour
         GameSettings.easyMiddleHardNumber = 1;
         gameObject.SetActive(false);
         GamePlayScreen.SetActive(true);
+        Managers.SudokuManager.sudokuCreated.Invoke();
     }
 
     private void MediumButtonClicked()
@@ -32,6 +33,7 @@ public class StartScreenController : MonoBehaviour
         GameSettings.easyMiddleHardNumber = 2;
         gameObject.SetActive(false);
         GamePlayScreen.SetActive(true);
+        Managers.SudokuManager.sudokuCreated.Invoke();
     }
 
     private void HardButtonClicked()
@@ -39,5 +41,6 @@ public class StartScreenController : MonoBehaviour
         GameSettings.easyMiddleHardNumber = 3;
         gameObject.SetActive(false);
         GamePlayScreen.SetActive(true);
+        Managers.SudokuManager.sudokuCreated.Invoke();
     }
 }

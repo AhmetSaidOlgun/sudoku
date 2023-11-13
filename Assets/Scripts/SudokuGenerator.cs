@@ -33,7 +33,7 @@ public class SudokuGenerator
         List<Tuple<int, int>> Values = GetValues();
         int endValueIndex = GameSettings.easyMiddleHardNumber switch
         {
-            1 => 77,
+            1 => 80,
             2 => 61,
             3 => 30
         };

@@ -20,9 +20,10 @@ public class FailScreenController : EndScreenController
 
     private void ContinueButton()
     {
+        Managers.AdManager.LoadRewardedAd();
+        Managers.AdManager.ShowRewardedAd();
+        Managers.SudokuManager.SetControllerItemsInteraction(true);
         gameObject.SetActive(false);
         _gamePlayScreen.gameObject.SetActive(true);
-        //Reklam çıkar
-        //Hak arttır
     }
 }
