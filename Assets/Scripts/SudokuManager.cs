@@ -27,8 +27,8 @@ public class SudokuManager : MonoBehaviour
     private List<Button> sudokuButtons;
 
     public int moveCount;
-    public Action controllerItemClicked;
-    public Action sudokuCreated;
+    public Action<string> controllerItemClicked;
+    public Action<string> sudokuCreated;
 
     private void Awake()
     {
@@ -168,12 +168,12 @@ public class SudokuManager : MonoBehaviour
                 }
             }
 
-            controllerItemClicked.Invoke();
-        }
-
-        if (gameFinished)
-        {
-            StartCoroutine(GameFinished(1));
+            controllerItemClicked?.Invoke(moveCount.ToString());
+            
+            if (gameFinished)
+            {
+                StartCoroutine(GameFinished(1));
+            }
         }
     }
 
@@ -195,18 +195,16 @@ public class SudokuManager : MonoBehaviour
 
     public void ItemValueChanged(SudokuItem sudokuItem)
     {
-        bool showSuccessfulText = true;
-
         if (sudokuItem.isChangeable)
         {
             if (_finalObject.values[sudokuItem._row, sudokuItem._column] == sudokuItem.Number)
             {
                 sudokuItem.SuccessfulItem();
+                Managers.SudokuManager.DeselectSudokuItem();
             }
             else
             {
                 sudokuItem.FailItem();
-                showSuccessfulText = false;
             }
         }
     }
@@ -225,10 +223,15 @@ public class SudokuManager : MonoBehaviour
 
     private IEnumerator GameFinished(float duration)
     {
-        _currentSudokuItem = null;
+        DeselectSudokuItem();
         SetControllerItemsInteraction(false);
         yield return new WaitForSeconds(duration);
         FinishButton();
+    }
+
+    private void DeselectSudokuItem()
+    {
+        _currentSudokuItem = null;
     }
 
     public void SetControllerItemsInteraction(bool isInteractable)

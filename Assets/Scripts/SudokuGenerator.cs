@@ -28,14 +28,17 @@ public class SudokuGenerator
 
     private static SudokuObjects RemoveSudokuObjects(SudokuObjects sudokuObjects)
     {
+        int easy = Random.Range(75, 80);
+        int medium = Random.Range(55, 70);
+        int hard = Random.Range(35, 50);
         SudokuObjects newSudokuObject = new SudokuObjects();
         newSudokuObject.values = (int[,]) sudokuObjects.values.Clone();
         List<Tuple<int, int>> Values = GetValues();
         int endValueIndex = GameSettings.easyMiddleHardNumber switch
         {
-            1 => 80,
-            2 => 61,
-            3 => 30
+            1 => easy,
+            2 => medium,
+            3 => hard
         };
 
         bool isFinished = false;

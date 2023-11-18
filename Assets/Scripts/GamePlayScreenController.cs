@@ -13,20 +13,14 @@ public class GamePlayScreenController : MonoBehaviour
 
     private void Awake()
     {
-       
+        Managers.SudokuManager.sudokuCreated += s => UpdateMoveCountText(Managers.SudokuManager.moveCount.ToString()); 
+        Managers.SudokuManager.controllerItemClicked += s => UpdateMoveCountText(Managers.SudokuManager.moveCount.ToString()); 
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
-        UpdateMoveCountText();
-        Managers.SudokuManager.sudokuCreated += UpdateMoveCountText;
-        Managers.SudokuManager.controllerItemClicked += UpdateMoveCountText;
-    }
-
-    private void OnDisable()
-    {
-        Managers.SudokuManager.controllerItemClicked -= UpdateMoveCountText;
-        Managers.SudokuManager.sudokuCreated -= UpdateMoveCountText;
+        Managers.SudokuManager.sudokuCreated -= s => UpdateMoveCountText(Managers.SudokuManager.moveCount.ToString());
+        Managers.SudokuManager.controllerItemClicked -= s => UpdateMoveCountText(Managers.SudokuManager.moveCount.ToString());
     }
     private void Start()
     {
@@ -40,8 +34,8 @@ public class GamePlayScreenController : MonoBehaviour
         Managers.SudokuManager.ClearSudoku();
     }
 
-    private void UpdateMoveCountText()
+    private void UpdateMoveCountText(string move)
     {
-        moveCount.text = Managers.SudokuManager.moveCount.ToString();
+        moveCount.text = move;
     }
 }
