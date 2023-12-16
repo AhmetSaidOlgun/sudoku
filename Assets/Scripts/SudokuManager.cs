@@ -77,7 +77,6 @@ public class SudokuManager : MonoBehaviour
 
     public void CreateSudokuObject()
     {
-        moveCount = 5;
         SetControllerItemsInteraction(true);
         changebleSudokuItems = new List<SudokuItem>();
         SudokuGenerator.CreateSudokuObjects(out SudokuObjects finalObject, out SudokuObjects gameObject);
@@ -93,6 +92,8 @@ public class SudokuManager : MonoBehaviour
                     SudokuItem fieldObject = _sudokuItemDic[new Tuple<int, int>(row, column)];
                     fieldObject.SetItemNumber(currenValue);
                     fieldObject.isChangeable = false;
+                    fieldObject.SetInteraction(false);
+                    fieldObject.SetInteractableButtonColors();
                 }
                 else
                 {

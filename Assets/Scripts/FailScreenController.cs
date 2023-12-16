@@ -25,7 +25,7 @@ public class FailScreenController : EndScreenController
         await Managers.AdManager.ShowRewardedAd();
         _continueButton.interactable = true;
         Managers.SudokuManager.SetControllerItemsInteraction(true);
-        Managers.SudokuManager.moveCount = 3;
+        Managers.SudokuManager.moveCount += 3;
         Managers.SudokuManager.sudokuCreated.Invoke(Managers.SudokuManager.moveCount.ToString());
         gameObject.SetActive(false);
         _gamePlayScreen.gameObject.SetActive(true);

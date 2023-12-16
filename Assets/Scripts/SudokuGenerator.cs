@@ -36,10 +36,23 @@ public class SudokuGenerator
         List<Tuple<int, int>> Values = GetValues();
         int endValueIndex = GameSettings.easyMiddleHardNumber switch
         {
-            1 => easy,
+            1 => easy, 
             2 => medium,
             3 => hard
         };
+
+        if (GameSettings.easyMiddleHardNumber == 1)
+        {
+            Managers.SudokuManager.moveCount = (81 - easy) + 3;
+        }
+        else if((GameSettings.easyMiddleHardNumber == 2))
+        {
+            Managers.SudokuManager.moveCount = (81 - medium) + 4;
+        }
+        else if((GameSettings.easyMiddleHardNumber == 3))
+        {
+            Managers.SudokuManager.moveCount = (81 - hard) + 5;
+        }
 
         bool isFinished = false;
         while (!isFinished)

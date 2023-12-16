@@ -61,12 +61,13 @@ public class SudokuItem
 
     public void ClearSudoku()
     {
+        _instance.GetComponent<Button>().interactable = true;
         _instance.GetComponent<Image>().sprite = null;
         var colorBlock = _instance.GetComponent<Button>().colors;
         colorBlock.normalColor = Color.white;
-        colorBlock.highlightedColor = Color.white;
-        colorBlock.disabledColor = Color.white;
         colorBlock.pressedColor = HexToColor("C8C8C8");
+        colorBlock.highlightedColor =HexToColor("D6D6D6");
+        colorBlock.disabledColor =HexToColor("D6D6D6");
         colorBlock.selectedColor = HexToColor("D6D6D6");
         _instance.GetComponent<Button>().colors = colorBlock;
     }
@@ -76,6 +77,15 @@ public class SudokuItem
         _instance.GetComponent<Button>().interactable = isInteractable;
     }
 
+    public void SetInteractableButtonColors()
+    {
+        var a = _instance.GetComponent<Button>().colors;
+        a.disabledColor = Color.white;
+        a.normalColor = Color.white;
+        a.highlightedColor = Color.white;
+        a.selectedColor = Color.white;
+        _instance.GetComponent<Button>().colors = a;
+    }
     private Color HexToColor(string hex)
     {
         Color color = new Color();
